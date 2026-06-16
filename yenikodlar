@@ -1,0 +1,83 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using MySql.Data.MySqlClient;
+
+namespace enesbaki
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            MySqlConnection baglanti = new MySqlConnection("Server=localhost;Database=sinemalar;Uid=root;Pwd=tophane1868;");
+            MySqlDataAdapter adapter = new MySqlDataAdapter($"select Sinemaadi from sinemalar where Sinemasehir = '{comboBox1.Text}'",baglanti);
+            DataTable datatable = new DataTable();
+            adapter.Fill(datatable);
+
+            dataGridView1.DataSource = datatable;
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            label3.Text = $"Seçilen Sinema: {dataGridView1.CurrentRow.Cells[0].Value.ToString()}";
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            MySqlConnection baglanti = new MySqlConnection("Server=localhost;Database=sinemalar;Uid=root;Pwd=tophane1868;");
+            MySqlDataAdapter adapter = new MySqlDataAdapter($"select filmismi,filmyassiniri,yetiskinbiley,cocukbilet from filmler", baglanti);
+            DataTable datatable = new DataTable();
+            adapter.Fill(datatable);
+
+            dataGridView2.DataSource = datatable;
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (dataGridView2.CurrentRow == null || dataGridView2.CurrentRow.Cells[0].Value == null)
+            {
+                return;
+            }
+
+            secilenfilm.Text = dataGridView2.CurrentRow.Cells[0].Value.ToString();
+            label9.Text = dataGridView2.CurrentRow.Cells[1].Value.ToString();
+
+            decimal fiyat = 0;
+
+            // System.Globalization.CultureInfo.InvariantCulture ekleyerek noktayı zorla ondalık kabul ettiriyoruz
+            if (radioButton1.Checked)
+            {
+                fiyat = Convert.ToDecimal(dataGridView2.CurrentRow.Cells[2].Value, System.Globalization.CultureInfo.InvariantCulture);
+            }
+            else
+            {
+                fiyat = Convert.ToDecimal(dataGridView2.CurrentRow.Cells[3].Value, System.Globalization.CultureInfo.InvariantCulture);
+            }
+
+            if (radioButton3.Checked)
+            {
+                fiyat += 20;
+            }
+
+            // Ekranda düzgünce kuruşlu göstermesi için formatlı yazdırıyoruz
+            label10.Text = fiyat.ToString("0.00") + " TL";
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("satın aldınız");
+        }
+    }
+}
