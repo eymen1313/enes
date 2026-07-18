@@ -3,12 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Görsel Testi</title>
+  <title>Tam Ekran Görsel</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden; 
+      background-color: #000;
+    }
+
+    .tam-ekran-img {
+      width: 100%;
+      height: 100%
+      object-fit: cover; 
+      object-position: center; 
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Alternatif ham link yapısı -->
-  <img src="https://raw.githubusercontent.com/eymen1313/enes/0b01cae7e5acc4e3680f3e181146ea64d2a8731d/memiscan.jpeg" alt="Görsel">
+  <img class="tam-ekran-img" src="https://raw.githubusercontent.com/eymen1313/enes/0b01cae7e5acc4e3680f3e181146ea64d2a8731d/memiscan.jpeg" alt="Memiscan">
 
 </body>
 </html>
